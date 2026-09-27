@@ -9,3 +9,6 @@ test-results
 .env*.local
 *.tsbuildinfo
 *.log
+
+# Supabase CLI local state (project refs, pooler host)
+supabase/.temp/

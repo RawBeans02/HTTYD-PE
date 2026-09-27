@@ -28,6 +28,7 @@ export function LandingClient() {
   const [pin, setPin] = useState("");
   const [joinCode, setJoinCode] = useState("");
   const [practiceMode, setPracticeMode] = useState(false);
+  const [accessCode, setAccessCode] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -43,7 +44,9 @@ export function LandingClient() {
     try {
       const data = await requestJson<CreateGameResponse>("/api/games", {
         pin,
-        practiceMode
+        practiceMode,
+        // Only a real game spends credits, so only a real game sends the code.
+        ...(practiceMode ? {} : { accessCode })
       });
       window.localStorage.setItem(hostTokenKey(data.session.join_code), data.hostToken);
       router.push(`/host/${data.session.join_code}`);
@@ -211,6 +214,25 @@ export function LandingClient() {
                   </span>
                 </span>
               </label>
+
+              {practiceMode ? null : (
+                <>
+                  <label htmlFor="accessCode" className="sr-only">
+                    Host access code
+                  </label>
+                  <TextField
+                    id="accessCode"
+                    type="password"
+                    autoComplete="off"
+                    value={accessCode}
+                    onChange={(event) => setAccessCode(event.target.value)}
+                    placeholder="Host access code"
+                    maxLength={128}
+                    aria-invalid={Boolean(error)}
+                    aria-describedby={error ? "landing-error" : undefined}
+                  />
+                </>
+              )}
 
               <Button variant="secondary" className="w-full" loading={busy} type="submit">
                 {practiceMode ? "Create practice game" : "Create game"}

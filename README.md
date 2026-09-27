@@ -22,7 +22,7 @@ cp .env.example .env.local
 
 2. Fill in `.env.local`. Use a unique random `APP_SECRET` of at least 32 characters.
 
-   Game creation is deliberately open: there is no access code. On a public deployment that means anyone with the URL can create a game and trigger image generation, so bound the cost with `MAX_IMAGES_PER_GAME` and `MAX_PLAYERS_PER_GAME`, and put the site behind Vercel Deployment Protection if it should not be public.
+   Real games spend OpenAI credits, so starting one requires `HOST_ACCESS_CODE`: share it only with the teachers who host. Practice games never call OpenAI and stay open to anyone. If `HOST_ACCESS_CODE` is unset, real games are open in development and turned off in production. Keep `MAX_IMAGES_PER_GAME` and `MAX_PLAYERS_PER_GAME` as a per-game ceiling, and set a monthly budget on the OpenAI project that holds the key.
 
 3. Initialize and link the Supabase CLI, then apply the checked-in migration:
 

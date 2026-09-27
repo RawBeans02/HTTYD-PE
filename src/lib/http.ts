@@ -42,6 +42,9 @@ export function friendlyValidationMessage(error: ZodError): string {
   if (field === "pin") {
     return "The host PIN needs to be between 4 and 32 characters.";
   }
+  if (field === "accessCode") {
+    return "That host access code is too long. Check it and try again.";
+  }
   if (field === "votedForPlayerId") {
     return "Pick a dragon to vote for.";
   }
